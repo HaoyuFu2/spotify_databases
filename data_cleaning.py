@@ -49,7 +49,7 @@ def clean_data_graph(track_df):
     edges = pd.read_csv('data/raw/network/edges.csv')
 
     # Using a subset of nodes & edges for demo
-    artist_nodes = nodes[nodes.popularity > 70] # Select the artists with popularity > 70
+    artist_nodes = nodes[nodes.popularity > 60] # Select the artists with popularity > 70
     artist_nodes.to_csv('data/cleaned/network/artist_nodes.csv', index=False)
     artist_ids = set(artist_nodes.spotify_id)
     collaborations = edges[edges.id_0.isin(artist_ids) & edges.id_1.isin(artist_ids)]
@@ -58,7 +58,9 @@ def clean_data_graph(track_df):
     # Select the tracks composed by above artists and perform data cleaning
     track_df['demo'] = track_df['id_artists']\
         .apply(lambda lst: any([x in artist_ids for x in lst[1:-1].replace("'", '').split(', ')]))
-    track_nodes = track_df[track_df.demo == True][['id','name','popularity','duration_ms','artists','id_artists']]
+    track_nodes = track_df[track_df.demo == True]\
+        [['id','name','popularity','duration_ms','artists','id_artists',
+          'danceability','energy','key','loudness','liveness','tempo']]
     track_nodes['id_artists'] = track_nodes['id_artists']\
         .astype('str').apply(lambda x: x[1:-1].replace("'","").replace(", ",","))
     track_nodes.to_csv('data/cleaned/network/track_nodes.csv', index=False)

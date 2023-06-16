@@ -97,10 +97,11 @@ def search_artist(r, cur, **kwargs):
         r.set(query, result)
         return result
 
+
+
 ###############################################
 #             Cassandra Functions             #
 ###############################################
-
 
 #######################
 # popularity_by_month #
