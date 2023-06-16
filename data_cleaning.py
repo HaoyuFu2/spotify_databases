@@ -49,7 +49,8 @@ def clean_data_graph(track_df):
     edges = pd.read_csv('data/raw/network/edges.csv')
 
     # Using a subset of nodes & edges for demo
-    artist_nodes = nodes[nodes.popularity > 60] # Select the artists with popularity > 70
+    # For performance in demo, only select the artists with popularity > 60
+    artist_nodes = nodes[nodes.popularity > 60]
     artist_nodes.to_csv('data/cleaned/network/artist_nodes.csv', index=False)
     artist_ids = set(artist_nodes.spotify_id)
     collaborations = edges[edges.id_0.isin(artist_ids) & edges.id_1.isin(artist_ids)]
@@ -61,6 +62,8 @@ def clean_data_graph(track_df):
     track_nodes = track_df[track_df.demo == True]\
         [['id','name','popularity','duration_ms','artists','id_artists',
           'danceability','energy','key','loudness','liveness','tempo']]
+    
+    # Change the value format of column id_artists in convenience of neo4j queries
     track_nodes['id_artists'] = track_nodes['id_artists']\
         .astype('str').apply(lambda x: x[1:-1].replace("'","").replace(", ",","))
     track_nodes.to_csv('data/cleaned/network/track_nodes.csv', index=False)

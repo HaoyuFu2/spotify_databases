@@ -1,5 +1,3 @@
-import json
-
 def parse_track_id(row):
     return row.split("'")[1]
 
@@ -34,7 +32,8 @@ def louvain_cluster(session):
 
 def recommend_track(r, session, track_id, limit=10):
 
-    recommend_query = """MATCH (t1:Track {track_id: '"""+ track_id +"""'})
+    recommend_query = """
+        MATCH (t1:Track {track_id: '"""+ track_id +"""'})
         MATCH (t1)-[:COMPOSED_BY]->(a:Artist)
         MATCH (t2)-[:COMPOSED_BY]->(a)
         RETURN t2.track_id AS track_id, t2.track_name AS track_name,
