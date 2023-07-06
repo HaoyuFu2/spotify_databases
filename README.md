@@ -1,4 +1,7 @@
-# spotify_databases
+# Spotify Databases
+
+## Team: Eddie Ho, Haoyu Fu, Yixuan Zhang
+
 Spotify databases utilizing Cassandra, Neo4j, and Redis
 
 Please start running codes from **demo.ipynb**
